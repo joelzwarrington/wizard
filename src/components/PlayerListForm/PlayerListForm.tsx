@@ -13,11 +13,11 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { GridList, GridListItem } from 'react-aria-components'
-import { useDragAndDrop } from 'react-aria-components'
-import { useListData } from 'react-stately'
+import type { Players } from '@/schemas/players'
+import { useState } from 'react'
 
 export const PlayerListForm = () => {
-  const list = useListData<Player>({ getKey: (item) => item.name })
+  const [players, setPlayers] = useState<Players>([])
 
   const form = useForm<Player>({
     resolver: zodResolver(PlayerSchema),
@@ -26,39 +26,17 @@ export const PlayerListForm = () => {
     }
   })
 
-  const onSubmit = (player: Player) => {
-    list.append(player)
-    form.reset()
-  }
-
-  const { dragAndDropHooks } = useDragAndDrop({
-    getItems: (keys) =>
-      [...keys].map((key) => ({
-        'text/plain': list.getItem(key)!.name
-      })),
-    onReorder(e) {
-      if (e.target.dropPosition === 'before') {
-        list.moveBefore(e.target.key, e.keys)
-      } else if (e.target.dropPosition === 'after') {
-        list.moveAfter(e.target.key, e.keys)
-      }
-    }
-  })
+  const onSubmit = (player: Player) =>
+    setPlayers((prev) => {
+      form.reset()
+      return [...prev, player]
+    })
 
   return (
     <>
-      <GridList
-        aria-label="Players"
-        items={list.items}
-        dragAndDropHooks={dragAndDropHooks}
-      >
+      <GridList aria-label="Players" items={players}>
         {(player) => (
-          <GridListItem id={player.name}>
-            <Button variant="ghost" size="icon" slot="drag">
-              ≡
-            </Button>
-            {player.name}
-          </GridListItem>
+          <GridListItem id={player.name}>{player.name}</GridListItem>
         )}
       </GridList>
       <Form {...form}>
