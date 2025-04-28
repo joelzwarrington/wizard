@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import players from '~/schemas/players'
+import players from '@/schemas/players'
 
 const schema = z.object({
   players: players

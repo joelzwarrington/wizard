@@ -1,4 +1,4 @@
-import Logo from '~/components/Logo/Logo'
+import Logo from '@/components/Logo/Logo'
 import type { Route } from './+types/home'
 import { NavLink } from 'react-router'
 

@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 import { createRoutesStub } from 'react-router'
 
-import Page from '~/routes/games/new'
+import Page from '@/app/routes/games/new'
 
 describe('/games/new', () => {
   const PageWithRouter = createRoutesStub([

@@ -1,6 +1,5 @@
-import Logo from '~/components/Logo/Logo'
 import type { Route } from './+types/new'
-import { NavLink } from 'react-router'
+import { PlayerListForm } from '@/components/PlayerListForm/PlayerListForm'
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -16,6 +15,7 @@ export default function Page() {
   return (
     <div className="grid justify-items-center">
       <h1>New game</h1>
+      <PlayerListForm />
     </div>
   )
 }
