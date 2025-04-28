@@ -1,4 +1,4 @@
-# Wizard
+# Wizardly
 
 A companion app for the [Wizard](<https://en.wikipedia.org/wiki/Wizard_(card_game)>) card game. Used to keep track of scores, round, past games, and more.
 
