@@ -1,12 +1,16 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import { reactRouter } from '@react-router/dev/vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import tailwindcss from '@tailwindcss/vite'
 
 // https://vitejs.dev/config https://vitest.dev/config
 export default defineConfig({
-  plugins: [react(), tsconfigPaths(), tailwindcss()],
+  plugins: [
+    tailwindcss(),
+    !process.env.VITEST && reactRouter(),
+    tsconfigPaths()
+  ],
   test: {
     globals: true,
     environment: 'happy-dom',

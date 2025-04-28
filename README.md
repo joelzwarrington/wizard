@@ -8,6 +8,7 @@ This is a React [progressive web app](https://developer.mozilla.org/en-US/docs/W
 
 - [Vite](https://vitejs.dev)
 - [ReactJS](https://reactjs.org)
+- [React Router](https://reactrouter.com/)
 - [TypeScript](https://www.typescriptlang.org)
 - [Vitest](https://vitest.dev)
 - [Testing Library](https://testing-library.com)
