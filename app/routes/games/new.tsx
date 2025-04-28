@@ -1,5 +1,5 @@
 import Logo from '~/components/Logo/Logo'
-import type { Route } from './+types/home'
+import type { Route } from './+types/new'
 import { NavLink } from 'react-router'
 
 export function meta({}: Route.MetaArgs) {
@@ -15,10 +15,7 @@ export function meta({}: Route.MetaArgs) {
 export default function Page() {
   return (
     <div className="grid justify-items-center">
-      <h1 className="sr-only">Wizardly</h1>
-      <p className="sr-only">A companion app for the Wizard card game.</p>
-      <Logo />
-      <NavLink to="/games/new">New game</NavLink>
+      <h1>New game</h1>
     </div>
   )
 }

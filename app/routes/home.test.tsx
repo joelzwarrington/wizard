@@ -1,11 +1,25 @@
+import { createRoutesStub } from 'react-router'
 import { render } from '@testing-library/react'
 
-import Home from '~/routes/home'
+import Page from '~/routes/home'
 
 describe('/', () => {
-  it('renders', () => {
-    const screen = render(<Home />)
+  const PageWithRouter = createRoutesStub([
+    {
+      path: '/',
+      Component: Page
+    }
+  ])
 
-    expect(screen.getByText('Hello World!')).toBeInTheDocument()
+  it('has heading', () => {
+    const screen = render(<PageWithRouter initialEntries={['/']} />)
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      'Wizardly'
+    )
+  })
+
+  it('has a link to new game', () => {
+    const screen = render(<PageWithRouter initialEntries={['/']} />)
+    expect(screen.getByRole('link')).toHaveAttribute('href', '/games/new')
   })
 })
