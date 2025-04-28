@@ -8,5 +8,9 @@ declare module "react-router" {
 
 type Params = {
   "/": {};
+  "/games": {};
   "/games/new": {};
+  "/games/:id": {
+    "id": string;
+  };
 };
