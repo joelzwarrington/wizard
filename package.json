@@ -1,6 +1,6 @@
 {
   "name": "wizard",
-  "description": "A Wizard card-game companion app.",
+  "description": "A companion app for the Wizard card game.",
   "version": "1.0.0",
   "private": true,
   "type": "module",
