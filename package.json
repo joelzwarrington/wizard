@@ -16,7 +16,7 @@
   "scripts": {
     "dev": "react-router dev",
     "build": "react-router build",
-    "serve": "react-router-serve ./build/server/index.js",
+    "serve": "vite preview",
     "test": "vitest",
     "lint": "eslint src --max-warnings=0",
     "typecheck": "react-router typegen && tsc --project tsconfig.json --noEmit"
