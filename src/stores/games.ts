@@ -29,7 +29,24 @@ export const useGames = create<GamesState>()(
 
           set({
             currentGameId: id,
-            games: { ...get().games, [id]: { id, players } }
+            games: {
+              ...get().games,
+              [id]: {
+                id,
+                players,
+                rounds: [
+                  {
+                    round: 1,
+                    dealer: Math.floor(Math.random() * players.length),
+                    bidding: players.map(() => ({
+                      bid: null,
+                      actual: null,
+                      score: null
+                    }))
+                  }
+                ]
+              }
+            }
           })
 
           return id

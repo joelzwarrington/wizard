@@ -1,8 +1,10 @@
-import { redirect } from 'react-router'
-import type { Route } from './+types/games'
+import { Link, NavLink, redirect, useLoaderData } from 'react-router'
+import type { Info, Route } from './+types/games'
 import { zfd } from 'zod-form-data'
 import PlayerSchema from '@/schemas/player'
 import { useGames } from '@/stores/games'
+import { Button } from '@/components/ui/button'
+import { useId } from 'react'
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -24,10 +26,29 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   return redirect(`/games/${id}`)
 }
 
+export async function clientLoader() {
+  const games = useGames.getState().games
+  return games
+}
+
 export default function Page() {
+  const headingId = useId()
+  const games = useLoaderData<Info['loaderData']>()
+
   return (
     <div className="grid justify-items-center">
-      <h1>Games</h1>
+      <h1 id={headingId}>Games</h1>
+      <ul aria-labelledby={headingId}>
+        {Object.entries(games).map(([uuid, game]) => {
+          return (
+            <li>
+              <Button asChild>
+                <NavLink to={`/games/${uuid}`}>{game.id}</NavLink>
+              </Button>
+            </li>
+          )
+        })}
+      </ul>
     </div>
   )
 }
