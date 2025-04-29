@@ -1,5 +1,6 @@
-import { useLoaderData, useMatches } from 'react-router'
+import { redirect, useLoaderData, useMatches } from 'react-router'
 import type { Info, Route } from './+types/game'
+import { useGames } from '@/stores/games'
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -12,11 +13,13 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function clientLoader({ params }: Route.LoaderArgs) {
-  return `Game ${params.id}`
+  const game = useGames.getState().currentGame()
+  if (!game) return redirect('/404', 404)
+  return game
 }
 
 export default function Page() {
   const data = useLoaderData<Info['loaderData']>()
 
-  return <h1>{data}</h1>
+  return <h1>{JSON.stringify(data)}</h1>
 }

@@ -1,8 +1,8 @@
 import { redirect } from 'react-router'
 import type { Route } from './+types/games'
-import { v4 as uuid } from 'uuid'
 import { zfd } from 'zod-form-data'
 import PlayerSchema from '@/schemas/player'
+import { useGames } from '@/stores/games'
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -19,9 +19,9 @@ const schema = zfd.formData({
 })
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
-  const data = schema.parse(await request.formData())
-
-  return redirect(`/games/${uuid()}`)
+  const { players } = schema.parse(await request.formData())
+  const id = useGames.getState().start(players)
+  return redirect(`/games/${id}`)
 }
 
 export default function Page() {
