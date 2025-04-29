@@ -20,12 +20,8 @@ describe('/games', () => {
     rounds: [
       {
         round: 1,
-        dealer: 0,
-        bidding: [
-          { score: 20, bid: 0, actual: 0 },
-          { score: 20, bid: 0, actual: 0 },
-          { score: 30, bid: 1, actual: 1 }
-        ]
+        step: 'dealing',
+        dealer: 0
       }
     ]
   }

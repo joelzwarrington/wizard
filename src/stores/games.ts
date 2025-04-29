@@ -38,12 +38,8 @@ export const useGames = create<GamesState>()(
               rounds: [
                 {
                   round: 1,
-                  dealer: Math.floor(Math.random() * players.length),
-                  bidding: players.map(() => ({
-                    bid: null,
-                    actual: null,
-                    score: null
-                  }))
+                  step: 'dealing',
+                  dealer: Math.floor(Math.random() * players.length)
                 }
               ]
             }
