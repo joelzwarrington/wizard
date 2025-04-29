@@ -21,9 +21,7 @@ export async function clientLoader({ params }: Route.LoaderArgs) {
 }
 
 export default function Page() {
-  const game = useGames((set) => set.currentGame)()
-
-  if (!game) return <>No game found.</>
+  const game = useGames((set) => set.currentGame)()!
 
   return (
     <>
