@@ -95,8 +95,36 @@ describe('useGames', () => {
         },
         {
           round: 2,
+          step: 'dealing',
           dealer:
             game!.rounds![0].dealer === 3 ? 0 : game!.rounds![0].dealer + 1
+        }
+      ]
+    })
+
+    useGames.getState().advance({ from: 'dealing', trump: 'Diamond' })
+
+    game = useGames.getState().currentGame()
+    expect(useGames.getState().currentGame()).toMatchObject({
+      ...expected,
+      rounds: [
+        {
+          round: 1,
+          dealer: game!.rounds![0].dealer,
+          step: 'completed',
+          trump: 'Heart',
+          bidding: [
+            { bid: 0, actual: 3, score: -30 },
+            { bid: 1, actual: 1, score: 30 },
+            { bid: 2, actual: 2, score: 40 },
+            { bid: 3, actual: 0, score: -30 }
+          ]
+        },
+        {
+          round: 2,
+          step: 'bidding',
+          dealer: game!.rounds![1].dealer,
+          trump: 'Diamond'
         }
       ]
     })
