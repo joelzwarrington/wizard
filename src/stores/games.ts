@@ -14,47 +14,47 @@ type GamesState = {
 }
 
 export const useGames = create<GamesState>()(
-  devtools(
-    persist(
-      (set, get) => ({
-        games: {},
-        currentGame: () => {
-          const currentGameId = get().currentGameId
-          if (!currentGameId) return
+  persist(
+    (set, get) => ({
+      games: {},
+      currentGame: () => {
+        const currentGameId = get().currentGameId
+        if (!currentGameId) return
 
-          return get().games[currentGameId]
-        },
-        start: (players) => {
-          const id = uuid()
+        return get().games[currentGameId]
+      },
+      start: (players) => {
+        const id = uuid()
 
-          set({
-            currentGameId: id,
-            games: {
-              ...get().games,
-              [id]: {
-                id,
-                players,
-                rounds: [
-                  {
-                    round: 1,
-                    dealer: Math.floor(Math.random() * players.length),
-                    bidding: players.map(() => ({
-                      bid: null,
-                      actual: null,
-                      score: null
-                    }))
-                  }
-                ]
-              }
+        set({
+          currentGameId: id,
+          games: {
+            ...get().games,
+            [id]: {
+              id,
+              datetime: new Date().toISOString(),
+              completed: false,
+              players,
+              rounds: [
+                {
+                  round: 1,
+                  dealer: Math.floor(Math.random() * players.length),
+                  bidding: players.map(() => ({
+                    bid: null,
+                    actual: null,
+                    score: null
+                  }))
+                }
+              ]
             }
-          })
+          }
+        })
 
-          return id
-        }
-      }),
-      {
-        name: 'game'
+        return id
       }
-    )
+    }),
+    {
+      name: 'game'
+    }
   )
 )

@@ -14,6 +14,8 @@ describe('/games', () => {
 
   const game: Game = {
     id: 'cf918839-8d71-4b90-a878-c70cd5b2b7c2',
+    datetime: '2025-01-01T00:00:00Z',
+    completed: false,
     players: [{ name: 'Calisto' }, { name: 'Howl' }, { name: 'Prince' }],
     rounds: [
       {
@@ -30,9 +32,7 @@ describe('/games', () => {
 
   const hydrationData = {
     loaderData: {
-      0: {
-        [game.id]: game
-      }
+      0: [game]
     }
   }
 
@@ -47,7 +47,7 @@ describe('/games', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Games')
   })
 
-  it('renders list of games', () => {
+  it('has list of games', () => {
     const screen = render(
       <PageWithRouter
         initialEntries={['/games']}
@@ -60,7 +60,7 @@ describe('/games', () => {
     expect(within(list).getAllByRole('listitem')).toHaveLength(1)
   })
 
-  it('renders a link to the game', () => {
+  it('has a link to each game', () => {
     const screen = render(
       <PageWithRouter
         initialEntries={['/games']}
@@ -73,5 +73,17 @@ describe('/games', () => {
       'href',
       `/games/${game.id}`
     )
+  })
+
+  it('has game status', () => {
+    const screen = render(
+      <PageWithRouter
+        initialEntries={['/games']}
+        hydrationData={hydrationData}
+      />
+    )
+
+    const listitem = screen.getByRole('listitem')
+    expect(within(listitem).getByText('In progress')).toBeInTheDocument()
   })
 })

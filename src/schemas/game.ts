@@ -4,6 +4,8 @@ import round from '@/schemas/round'
 
 const schema = z.object({
   id: z.string().uuid(),
+  datetime: z.string().datetime(),
+  completed: z.boolean(),
   players: players,
   rounds: round.array()
 })
