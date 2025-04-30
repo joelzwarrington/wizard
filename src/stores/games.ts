@@ -5,6 +5,7 @@ import type { Players } from '@/schemas/players'
 import { v4 as uuid } from 'uuid'
 import type { Round } from '@/schemas/round'
 import type { Trump } from '@/schemas/trump'
+import { getGameLength } from '@/lib/utils'
 
 type AdvanceArgs =
   | {
@@ -103,6 +104,8 @@ export const useGames = create<GamesState>()(
           case 'scoring':
             if (round.step !== args.from) return
 
+            const isLastRound = getGameLength(game) === round.round
+
             return set({
               games: {
                 ...get().games,
@@ -126,11 +129,15 @@ export const useGames = create<GamesState>()(
                         }
                       })
                     },
-                    {
-                      step: 'dealing',
-                      round: round.round + 1,
-                      dealer: (round.dealer + 1) % game.players.length
-                    }
+                    ...((isLastRound
+                      ? []
+                      : [
+                          {
+                            step: 'dealing',
+                            round: round.round + 1,
+                            dealer: (round.dealer + 1) % game.players.length
+                          }
+                        ]) satisfies Round[])
                   ]
                 }
               }
