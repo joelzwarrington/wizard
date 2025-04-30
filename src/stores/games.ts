@@ -8,18 +8,17 @@ import type { Trump } from '@/schemas/trump'
 
 type AdvanceArgs =
   | {
+      uuid: string
       from: Extract<Round['step'], 'dealing'>
       trump: Trump
     }
-  | { from: Extract<Round['step'], 'bidding'>; bids: number[] }
-  | { from: Extract<Round['step'], 'scoring'>; tricks: number[] }
+  | { uuid: string; from: Extract<Round['step'], 'bidding'>; bids: number[] }
+  | { uuid: string; from: Extract<Round['step'], 'scoring'>; tricks: number[] }
 
 type GamesState = {
   games: {
     [key: string]: Game
   }
-  currentGameId?: string
-  currentGame: () => Game | undefined
   start: (players: Players) => string
   advance: (args: AdvanceArgs) => void
 }
@@ -28,17 +27,11 @@ export const useGames = create<GamesState>()(
   persist(
     (set, get) => ({
       games: {},
-      currentGame: () => {
-        const currentGameId = get().currentGameId
-        if (!currentGameId) return
 
-        return get().games[currentGameId]
-      },
       start: (players) => {
         const id = uuid()
 
         set({
-          currentGameId: id,
           games: {
             ...get().games,
             [id]: {
@@ -60,7 +53,7 @@ export const useGames = create<GamesState>()(
         return id
       },
       advance: (args) => {
-        const game = get().currentGame()
+        const game = get().games[args.uuid]
         if (!game) return
         const round = game.rounds.at(-1)
         if (!round) return

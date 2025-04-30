@@ -1,7 +1,7 @@
 import { render, within } from '@testing-library/react'
 import { createRoutesStub } from 'react-router'
 
-import Page, { clientAction } from '@/app/routes/games'
+import Page from '@/app/routes/games'
 import type { Game } from '@/schemas/game'
 
 describe('/games', () => {

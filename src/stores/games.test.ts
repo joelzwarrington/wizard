@@ -13,7 +13,9 @@ describe('useGames', () => {
   it('starts game and returns uuid', () => {
     const id = useGames.getState().start([{ name: 'Joel' }])
     expect(id).toEqual(uuid)
-    expect(useGames.getState().currentGame()).toMatchObject({
+
+    const game = useGames.getState().games[id]
+    expect(game).toMatchObject({
       id: uuid,
       players: [{ name: 'Joel' }]
     })
@@ -44,12 +46,13 @@ describe('useGames', () => {
       rounds: [{ dealer: expect.any(Number), round: 1, step: 'dealing' }]
     }
 
-    let game = useGames.getState().currentGame()
+    let game = useGames.getState().games[id]!
     expect(game).toMatchObject(expected)
 
-    useGames.getState().advance({ from: 'dealing', trump: 'Heart' })
+    useGames.getState().advance({ uuid: id, from: 'dealing', trump: 'Heart' })
 
-    expect(useGames.getState().currentGame()).toMatchObject({
+    game = useGames.getState().games[id]!
+    expect(game).toMatchObject({
       ...expected,
       rounds: [
         {
@@ -61,9 +64,12 @@ describe('useGames', () => {
       ]
     })
 
-    useGames.getState().advance({ from: 'bidding', bids: [0, 1, 2, 3] })
+    useGames
+      .getState()
+      .advance({ uuid: id, from: 'bidding', bids: [0, 1, 2, 3] })
 
-    expect(useGames.getState().currentGame()).toMatchObject({
+    game = useGames.getState().games[id]!
+    expect(game).toMatchObject({
       ...expected,
       rounds: [
         {
@@ -76,9 +82,12 @@ describe('useGames', () => {
       ]
     })
 
-    useGames.getState().advance({ from: 'scoring', tricks: [3, 1, 2, 0] })
+    useGames
+      .getState()
+      .advance({ uuid: id, from: 'scoring', tricks: [3, 1, 2, 0] })
 
-    expect(useGames.getState().currentGame()).toMatchObject({
+    game = useGames.getState().games[id]!
+    expect(game).toMatchObject({
       ...expected,
       rounds: [
         {
@@ -102,10 +111,10 @@ describe('useGames', () => {
       ]
     })
 
-    useGames.getState().advance({ from: 'dealing', trump: 'Diamond' })
+    useGames.getState().advance({ uuid: id, from: 'dealing', trump: 'Diamond' })
 
-    game = useGames.getState().currentGame()
-    expect(useGames.getState().currentGame()).toMatchObject({
+    game = useGames.getState().games[id]!
+    expect(game).toMatchObject({
       ...expected,
       rounds: [
         {
