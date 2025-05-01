@@ -2,7 +2,6 @@ import type { Game } from '@/schemas/game'
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -51,33 +50,36 @@ export const ScoreSheet = ({ game }: ScoreSheetProps) => {
                 {'trump' in round && <TrumpIcon trump={round.trump} />}
               </div>
             </TableCell>
-            {'bidding' in round
-              ? round.bidding.map((bidding, index) => (
-                  <>
-                    <TableCell rowSpan={2} className="text-center relative">
-                      {bidding.score}
-                      {index === round.dealer && (
-                        <span className="absolute bottom-0.5 right-0.5 size-2.5 bg-[#fce800] border-2 border-white dark:border-gray-800 rounded-full"></span>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-center">{bidding.bid}</TableCell>
-                  </>
-                ))
-              : game.players.map(() => (
-                  <>
-                    <TableCell rowSpan={2} />
-                    <TableCell />
-                  </>
-                ))}
+            {game.players.map((_, index) => {
+              const bid = 'bidding' in round && round.bidding[index].bid
+              const score =
+                'bidding' in round &&
+                'score' in round.bidding[index] &&
+                round.bidding[index].score
+              const isDealer = round.dealer === index
+
+              return (
+                <>
+                  <TableCell rowSpan={2} className="text-center relative">
+                    {score}
+                    {isDealer && (
+                      <span className="absolute bottom-0.5 right-0.5 size-2.5 bg-[#fce800] border-2 border-white dark:border-gray-800 rounded-full"></span>
+                    )}
+                  </TableCell>
+                  <TableCell className="text-center">{bid}</TableCell>
+                </>
+              )
+            })}
           </TableRow>
           <TableRow>
-            {'bidding' in round
-              ? round.bidding.map((bidding) => (
-                  <TableCell className="text-center">
-                    {bidding.actual}
-                  </TableCell>
-                ))
-              : game.players.map(() => <TableCell />)}
+            {game.players.map((_, index) => {
+              const actual =
+                'bidding' in round &&
+                'actual' in round.bidding[index] &&
+                round.bidding[index].actual
+
+              return <TableCell className="text-center">{actual}</TableCell>
+            })}
           </TableRow>
         </TableBody>
       ))}
