@@ -70,7 +70,7 @@ export const isScoringStep = (
 }
 
 export const isCompletedStep = (
-  round: Round
-): round is z.infer<typeof scoring> => {
-  return round.step === 'completed'
+  round?: Round
+): round is z.infer<typeof completed> => {
+  return round?.step === 'completed'
 }

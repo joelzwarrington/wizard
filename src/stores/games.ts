@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware'
 import type { Game } from '@/schemas/game'
 import type { Players } from '@/schemas/players'
 import { v4 as uuid } from 'uuid'
-import type { Round } from '@/schemas/round'
+import { isCompletedStep, type Round } from '@/schemas/round'
 import type { Trump } from '@/schemas/trump'
 import { getGameLength } from '@/lib/utils'
 
@@ -117,11 +117,18 @@ export const useGames = create<GamesState>()(
                       ...round,
                       step: 'completed',
                       bidding: round.bidding.map(({ bid }, index) => {
+                        const previousRound = rounds.at(-1)
                         const actual = args.tricks[index]
+                        const previousScore =
+                          (isCompletedStep(previousRound) &&
+                            previousRound.bidding[index].score) ||
+                          0
+
                         const score =
                           bid === actual
-                            ? 20 + actual * 10
-                            : -10 * Math.abs(actual - bid)
+                            ? previousScore + 20 + actual * 10
+                            : previousScore + -10 * Math.abs(actual - bid)
+
                         return {
                           bid,
                           actual,

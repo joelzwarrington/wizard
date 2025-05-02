@@ -139,6 +139,72 @@ describe('useGames', () => {
     })
   })
 
+  it('uses the rounds previous score', () => {
+    const game: Game = {
+      id: uuid,
+      datetime: '2025-01-01T00:00:00.000Z',
+      completed: false,
+      players: [
+        { name: 'Rory' },
+        { name: 'Calisto' },
+        { name: 'Howl' },
+        { name: 'Prince' }
+      ],
+      rounds: [
+        {
+          round: 1,
+          step: 'completed',
+          dealer: 0,
+          trump: 'Heart',
+          bidding: [
+            { bid: 0, actual: 1, score: -10 },
+            { bid: 1, actual: 0, score: -10 },
+            { bid: 0, actual: 0, score: 20 },
+            { bid: 0, actual: 0, score: 20 }
+          ]
+        },
+        {
+          round: 2,
+          step: 'scoring',
+          dealer: 1,
+          trump: 'None',
+          bidding: [{ bid: 2 }, { bid: 1 }, { bid: 0 }, { bid: 0 }]
+        }
+      ]
+    }
+
+    useGames.setState({
+      games: {
+        [uuid]: game
+      }
+    })
+
+    useGames
+      .getState()
+      .advance({ uuid: uuid, from: 'scoring', tricks: [2, 0, 0, 0] })
+
+    expect(useGames.getState().games[uuid]).toMatchObject({
+      rounds: [
+        {
+          round: 1
+        },
+        {
+          round: 2,
+          step: 'completed',
+          bidding: [
+            { bid: 2, actual: 2, score: 30 },
+            { bid: 1, actual: 0, score: -20 },
+            { bid: 0, actual: 0, score: 40 },
+            { bid: 0, actual: 0, score: 40 }
+          ]
+        },
+        {
+          round: 3
+        }
+      ]
+    })
+  })
+
   it("doesn't advance past the final round", () => {
     useGames.setState({
       games: {
