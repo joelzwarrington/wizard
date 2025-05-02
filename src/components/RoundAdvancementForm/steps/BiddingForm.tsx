@@ -15,13 +15,13 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
-type DealingFormProps = {
+type ScoringFormProps = {
   uuid: string
   players: Player[]
   round: Extract<Round, { step: 'bidding' }>
 }
 
-export const BiddingForm = ({ uuid, players, round }: DealingFormProps) => {
+export const BiddingForm = ({ uuid, players, round }: ScoringFormProps) => {
   const formSchema = z.object({
     bids: z.array(z.object({ amount: z.coerce.number().nonnegative() }))
   })
