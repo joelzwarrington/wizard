@@ -3,7 +3,7 @@ import type { Info, Route } from './+types/game'
 import { useGames } from '@/stores/games'
 import { Badge } from '@/components/ui/badge'
 import { ScoreSheet } from '@/components/ScoreSheet'
-import { RoundAdvancementForm } from '@/components/RoundAdvancementForm'
+import { RoundAdvancementForm } from '@/components/RoundAdvancementForm/RoundAdvancementForm'
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -30,12 +30,14 @@ export default function Page({
   if (!round) return
 
   return (
-    <>
-      <div className="px-4 sm:px-0">
-        <h1 className="text-base/7 font-semibold text-white">Game</h1>
+    <div className="grid grid-rows-2 h-full w-full">
+      <div>
+        <div className="px-4 sm:px-0">
+          <h1 className="text-base/7 font-semibold text-white">Game</h1>
+        </div>
+        <ScoreSheet game={game} />
       </div>
-      <ScoreSheet game={game} />
       <RoundAdvancementForm uuid={id} round={round} />
-    </>
+    </div>
   )
 }

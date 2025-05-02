@@ -1,11 +1,13 @@
+import { cn } from '@/lib/utils'
 import type { Trump } from '@/schemas/trump'
 import { Club, Diamond, Heart, Spade } from 'lucide-react'
 
 type TrumpIconProps = {
   trump: Trump
+  className?: string
 }
 
-export const TrumpIcon = ({ trump }: TrumpIconProps) => {
+export const TrumpIcon = ({ trump, className }: TrumpIconProps) => {
   switch (trump) {
     case 'Heart':
       return (
@@ -13,9 +15,7 @@ export const TrumpIcon = ({ trump }: TrumpIconProps) => {
           role="img"
           aria-hidden="false"
           aria-label="Heart"
-          size={12}
-          color="#ff0000"
-          fill="#ff0000"
+          className={cn('size-5 text-red-suit fill-red-suit', className)}
         />
       )
     case 'Diamond':
@@ -24,9 +24,7 @@ export const TrumpIcon = ({ trump }: TrumpIconProps) => {
           role="img"
           aria-hidden="false"
           aria-label="Diamond"
-          size={12}
-          color="#ff0000"
-          fill="#ff0000"
+          className={cn('size-5 text-red-suit fill-red-suit', className)}
         />
       )
     case 'Club':
@@ -35,9 +33,7 @@ export const TrumpIcon = ({ trump }: TrumpIconProps) => {
           role="img"
           aria-hidden="false"
           aria-label="Club"
-          size={12}
-          color="#000"
-          fill="#000"
+          className={cn('size-5 text-black-suit fill-black-suit', className)}
         />
       )
     case 'Spade':
@@ -46,12 +42,8 @@ export const TrumpIcon = ({ trump }: TrumpIconProps) => {
           role="img"
           aria-hidden="false"
           aria-label="Spade"
-          size={12}
-          color="#000"
-          fill="#000"
+          className={cn('size-5 text-black-suit fill-black-suit', className)}
         />
       )
-    default:
-      return <></>
   }
 }

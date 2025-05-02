@@ -34,13 +34,13 @@ describe('<RoundAdvancementForm />', () => {
   const uuid = '55a5d47d-6942-4e93-8e19-4ca8c7477ab6'
 
   describe('when dealing', () => {
-    it('renders button to advance', () => {
+    it('renders form to advance', () => {
       const screen = render(
         <RoundAdvancementForm uuid={uuid} round={dealing} />
       )
 
       expect(
-        screen.getByRole('button', { name: 'Advance from Dealing' })
+        screen.getByRole('form', { name: 'Advance from dealing' })
       ).toBeInTheDocument()
     })
   })
