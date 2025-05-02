@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react'
 import { RoundAdvancementForm } from './RoundAdvancementForm'
 import type { Round } from '@/schemas/round'
+import type { Player } from '@/schemas/player'
 
 describe('<RoundAdvancementForm />', () => {
   const [dealing, bidding, scoring, completed]: Round[] = [
@@ -30,13 +31,18 @@ describe('<RoundAdvancementForm />', () => {
       ]
     }
   ]
+  const players: Player[] = [
+    { name: 'Prince' },
+    { name: 'Calisto' },
+    { name: 'Howl' }
+  ]
 
   const uuid = '55a5d47d-6942-4e93-8e19-4ca8c7477ab6'
 
   describe('when dealing', () => {
     it('renders form to advance', () => {
       const screen = render(
-        <RoundAdvancementForm uuid={uuid} round={dealing} />
+        <RoundAdvancementForm uuid={uuid} players={players} round={dealing} />
       )
 
       expect(
@@ -46,13 +52,13 @@ describe('<RoundAdvancementForm />', () => {
   })
 
   describe('when bidding', () => {
-    it('renders button to advance', () => {
+    it('renders form to advance', () => {
       const screen = render(
-        <RoundAdvancementForm uuid={uuid} round={bidding} />
+        <RoundAdvancementForm uuid={uuid} players={players} round={bidding} />
       )
 
       expect(
-        screen.getByRole('button', { name: 'Advance from Bidding' })
+        screen.getByRole('form', { name: 'Advance from bidding' })
       ).toBeInTheDocument()
     })
   })
@@ -60,7 +66,7 @@ describe('<RoundAdvancementForm />', () => {
   describe('when scoring', () => {
     it('renders button to advance', () => {
       const screen = render(
-        <RoundAdvancementForm uuid={uuid} round={scoring} />
+        <RoundAdvancementForm uuid={uuid} players={players} round={scoring} />
       )
 
       expect(
@@ -72,7 +78,7 @@ describe('<RoundAdvancementForm />', () => {
   describe('when completed', () => {
     it('renders nothing', () => {
       const screen = render(
-        <RoundAdvancementForm uuid={uuid} round={completed} />
+        <RoundAdvancementForm uuid={uuid} players={players} round={completed} />
       )
 
       expect(screen.getByText('completed')).toBeInTheDocument()

@@ -37,7 +37,7 @@ export default function Page({
         </div>
         <ScoreSheet game={game} />
       </div>
-      <RoundAdvancementForm uuid={id} round={round} />
+      <RoundAdvancementForm uuid={id} players={game.players} round={round} />
     </div>
   )
 }

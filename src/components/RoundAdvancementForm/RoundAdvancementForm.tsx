@@ -2,14 +2,18 @@ import type { Round } from '@/schemas/round'
 import { useGames } from '@/stores/games'
 import { Button } from '@/components/ui/button'
 import { DealingForm } from './steps/DealingForm'
+import { BiddingForm } from './steps/BiddingForm'
+import type { Player } from '@/schemas/player'
 
 type RoundAdvancementFormProps = {
   uuid: string
+  players: Player[]
   round: Round
 }
 
 export const RoundAdvancementForm = ({
   uuid,
+  players,
   round
 }: RoundAdvancementFormProps) => {
   const advance = useGames((set) => set.advance)
@@ -18,13 +22,7 @@ export const RoundAdvancementForm = ({
     round.step === 'dealing' ? (
       <DealingForm uuid={uuid} round={round} />
     ) : round.step === 'bidding' ? (
-      <Button
-        onClick={() => {
-          advance({ uuid, from: round.step, bids: [0, 0, 0, 1] })
-        }}
-      >
-        Advance from Bidding
-      </Button>
+      <BiddingForm uuid={uuid} players={players} round={round} />
     ) : round.step === 'scoring' ? (
       <Button
         onClick={() => {
