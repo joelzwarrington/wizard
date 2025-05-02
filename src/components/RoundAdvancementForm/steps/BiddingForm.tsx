@@ -63,7 +63,12 @@ export const BiddingForm = ({ uuid, players, round }: ScoringFormProps) => {
                   <FormItem className="flex-1">
                     <FormLabel>{`${players[index].name}'s bid`}</FormLabel>
                     <FormControl>
-                      <Input type="number" min={0} {...field} />
+                      <Input
+                        type="number"
+                        inputMode="numeric"
+                        min={0}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

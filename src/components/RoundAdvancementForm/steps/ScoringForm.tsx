@@ -65,6 +65,7 @@ export const ScoringForm = ({ uuid, players, round }: ScoringFormProps) => {
                     <FormControl>
                       <Input
                         type="number"
+                        inputMode="numeric"
                         min={0}
                         max={round.round}
                         {...field}
