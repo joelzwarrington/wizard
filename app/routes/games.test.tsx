@@ -43,6 +43,20 @@ describe('/games', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Games')
   })
 
+  it('has heading', () => {
+    const screen = render(
+      <PageWithRouter
+        initialEntries={['/games']}
+        hydrationData={hydrationData}
+      />
+    )
+
+    expect(screen.getByRole('link', { name: 'New game' })).toHaveAttribute(
+      'href',
+      '/games/new'
+    )
+  })
+
   it('has list of games', () => {
     const screen = render(
       <PageWithRouter
@@ -51,9 +65,10 @@ describe('/games', () => {
       />
     )
 
-    const list = screen.getByRole('list', { name: 'Games' })
+    const table = screen.getByRole('table')
 
-    expect(within(list).getAllByRole('listitem')).toHaveLength(1)
+    // includes 1 for header
+    expect(within(table).getAllByRole('row')).toHaveLength(2)
   })
 
   it('has a link to each game', () => {
@@ -64,22 +79,10 @@ describe('/games', () => {
       />
     )
 
-    const list = screen.getByRole('list', { name: 'Games' })
-    expect(within(list).getByRole('link')).toHaveAttribute(
+    const table = screen.getByRole('table')
+    expect(within(table).getByRole('link')).toHaveAttribute(
       'href',
       `/games/${game.id}`
     )
-  })
-
-  it('has game status', () => {
-    const screen = render(
-      <PageWithRouter
-        initialEntries={['/games']}
-        hydrationData={hydrationData}
-      />
-    )
-
-    const listitem = screen.getByRole('listitem')
-    expect(within(listitem).getByText('In progress')).toBeInTheDocument()
   })
 })

@@ -4,10 +4,10 @@ import type { Info, Route } from './+types/games'
 import { zfd } from 'zod-form-data'
 import PlayerSchema from '@/schemas/player'
 import { useGames } from '@/stores/games'
-import { Button } from '@/components/ui/button'
 import { useId } from 'react'
 import { Badge } from '@/components/ui/badge'
-import { cn } from '@/lib/utils'
+import { GameTable } from '@/components/GameTable/GameTable'
+import { Button } from '@/components/ui/button'
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -42,6 +42,20 @@ export async function clientLoader() {
 export default function Page() {
   const headingId = useId()
   const games = useLoaderData<Info['loaderData']>()
+
+  return (
+    <div className="sticky bottom-0 w-full mx-auto mt-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-3xl py-8 flex flex-col gap-4">
+        <div className="flex justify-between">
+          <h1>Games</h1>
+          <Button asChild>
+            <NavLink to="/games/new">New game</NavLink>
+          </Button>
+        </div>
+        <GameTable data={Array.from(games.values())} />
+      </div>
+    </div>
+  )
 
   return (
     <div className="grid justify-items-center">
