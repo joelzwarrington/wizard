@@ -64,24 +64,14 @@ describe('<RoundAdvancementForm />', () => {
   })
 
   describe('when scoring', () => {
-    it('renders button to advance', () => {
+    it('renders form to advance', () => {
       const screen = render(
         <RoundAdvancementForm uuid={uuid} players={players} round={scoring} />
       )
 
       expect(
-        screen.getByRole('button', { name: 'Advance from Scoring' })
+        screen.getByRole('form', { name: 'Advance from scoring' })
       ).toBeInTheDocument()
-    })
-  })
-
-  describe('when completed', () => {
-    it('renders nothing', () => {
-      const screen = render(
-        <RoundAdvancementForm uuid={uuid} players={players} round={completed} />
-      )
-
-      expect(screen.getByText('completed')).toBeInTheDocument()
     })
   })
 })
